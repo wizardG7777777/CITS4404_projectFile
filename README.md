@@ -24,28 +24,48 @@
 
 ## 安装与环境
 
-## 要求
+### 要求
 
 - Python 3.12+
-- 使用 uv 作为虚拟环境管理器
+- [uv](https://docs.astral.sh/uv/) 虚拟环境管理器
 
-## 当前环境状态
+### 首次初始化（从零开始）
 
-当前项目目录已完成 `uv` 环境初始化，可直接在仓库根目录执行 `uv run` 命令。
+如果你刚克隆本项目，或 `.venv` 目录不存在，请按以下步骤初始化环境：
 
-已安装依赖（根据当前环境）：
+```bash
+# 1. 确保 uv 已安装（若未安装，可参考 https://docs.astral.sh/uv/getting-started/installation/）
+uv --version
+
+# 2. 在项目根目录创建虚拟环境（Python 版本由 .python-version 指定为 3.12）
+uv venv
+
+# 3. 安装项目依赖
+uv sync
+```
+
+### 已有环境（同步依赖）
+
+如果 `.venv` 已存在但依赖可能有变更，执行以下命令同步：
+
+```bash
+uv sync
+```
+
+### 验证环境
+
+初始化完成后，可通过以下命令验证工具是否可用：
+
+```bash
+uv run python -m toolkit --help
+```
+
+已安装的主要依赖：
 
 - `pandas`（CSV 处理）
 - `pypdf`（PDF 文本提取）
-- `argparse`（CLI 参数解析，标准库）
+- `pytest`（测试框架）
 - `cython`（由环境解析引入）
-
-如需补装或更新依赖：
-
-```bash
-uv add pandas
-uv add pypdf
-```
 
 ## CLI 设计（建议）
 
