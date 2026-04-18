@@ -41,3 +41,6 @@ pip-wheel-metadata/
 *.log
 *.tmp
 *.swp
+
+# Claude Code local settings (may contain API keys / personal config)
+.claude/settings.local.json

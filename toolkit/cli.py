@@ -3,6 +3,13 @@ from __future__ import annotations
 import argparse
 from typing import Callable
 
+from toolkit.check_tools import (
+    handle_check_citations,
+    handle_check_comparison,
+    handle_check_equations,
+    handle_check_format,
+    handle_check_structure,
+)
 from toolkit.csv_tools import (
     handle_csv_filter_rows,
     handle_csv_find_columns,
@@ -74,7 +81,70 @@ def build_parser() -> argparse.ArgumentParser:
     _add_pdf_common_output_args(pdf_find_keyword)
     pdf_find_keyword.set_defaults(handler=handle_pdf_find_keyword)
 
+    _build_check_parser(subparsers)
+
     return parser
+
+
+def _add_target_args(parser: argparse.ArgumentParser) -> None:
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--file", help="Path to a single markdown file")
+    group.add_argument("--dir", help="Directory containing *.md files")
+    parser.add_argument("--output", choices=["table", "json"], default="json")
+
+
+def _build_check_parser(subparsers: argparse._SubParsersAction) -> None:
+    check_parser = subparsers.add_parser(
+        "check", help="Deliverable 1 compliance checks"
+    )
+    check_sub = check_parser.add_subparsers(dest="command")
+
+    structure = check_sub.add_parser(
+        "structure", help="Verify Q1..Q6 sections present"
+    )
+    _add_target_args(structure)
+    structure.set_defaults(handler=handle_check_structure)
+
+    equations = check_sub.add_parser(
+        "equations", help="Verify at least one math/equation block"
+    )
+    _add_target_args(equations)
+    equations.set_defaults(handler=handle_check_equations)
+
+    comparison = check_sub.add_parser(
+        "comparison", help="Verify comparison matrix covers required dimensions"
+    )
+    _add_target_args(comparison)
+    comparison.add_argument(
+        "--roster",
+        default="",
+        help="Comma-separated list of algorithm names to require (default: 20-algo roster)",
+    )
+    comparison.set_defaults(handler=handle_check_comparison)
+
+    fmt = check_sub.add_parser(
+        "format",
+        help="Word limit / IEEE cross-refs / Team Statement / placeholder scan",
+    )
+    _add_target_args(fmt)
+    fmt.add_argument("--word-limit", type=int, default=3000)
+    fmt.add_argument(
+        "--no-team-statement",
+        action="store_true",
+        help="Skip Team Statement requirement (for partial drafts)",
+    )
+    fmt.set_defaults(handler=handle_check_format)
+
+    cite = check_sub.add_parser(
+        "citations", help="Cross-check references against verified CSV"
+    )
+    _add_target_args(cite)
+    cite.add_argument(
+        "--verified-db",
+        default="docs/citation_verified.csv",
+        help="Path to verified citations CSV (columns: key,status,note)",
+    )
+    cite.set_defaults(handler=handle_check_citations)
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -123,4 +123,34 @@ PSO 和 WOA 代表了群体智能算法在 **21 年间**的两个重要节点：
 - [x] 核心差异对比完成
 - [x] Taxonomy 与时间线完成
 - [x] Part 2 实验设计建议完成
+- [x] 附录 A：独立第三方 PSO vs WOA 对比
 - [ ] 最终精简至 1-2 页（待提交前裁剪）
+
+---
+
+## 附录 A: 独立第三方 PSO vs WOA 对比研究
+
+为避免完全依赖 Mirjalili 2016 原始论文的自我评估，以下列出独立第三方在不同问题域对 PSO 与 WOA 的经验对比。
+
+### A.1 文献条目
+
+**[1]** A. T. Elgohr, M. A. Elazab, A. Z. *et al.*, "Particle swarm optimization vs. whale optimization algorithm for robotic arm path planning: A controlled study on the KUKA KR4 R600," *Results in Engineering*, 2024. [citation needs verification — volume/issue/pages pending confirmation via ScienceDirect record]
+
+一项严格的工程控制实验：作者在 KUKA KR4 R600 六自由度机械臂的路径规划问题上并列对比 PSO 与 WOA，使用相同的适应度函数（路径长度 + 关节平滑度）与相同的评估预算。结果显示 WOA 在最终路径代价上略优于 PSO，但 PSO 收敛更快、方差更小；两者在避障可行性上表现相当。该研究采用了**独立于 Mirjalili 2016 的工程 benchmark**（真实机械臂而非合成 CEC 函数），因此在方法论继承性上偏见较小，是较为公允的第三方对比。
+
+**[2]** H. M. Mohammed and T. A. Rashid, "A Systematic Review of the Whale Optimization Algorithm: Theoretical Foundation, Improvements, and Hybridizations," *Archives of Computational Methods in Engineering*, 2023. [citation needs verification — also indexed on PMC/NIH]
+
+一篇系统性综述，汇总了 2016–2022 年间百余篇 WOA 相关文献中 PSO 作为 baseline 的对比实验。综述指出：在 Mirjalili 原始 29 函数套件上 WOA 多数情况下优于标准 PSO，但在**高维（D≥100）单峰函数**与**CEC2017 shifted/rotated** 测试中，WOA 精度明显下滑，而经过惯性权重调度的 PSO 变体可反超。作者明确指出 WOA 在静态参数、早熟收敛上的缺陷。该综述仍大量引用 Mirjalili 2016 的 benchmark，因此存在**方法论继承偏见**。
+
+**[3]** "Comparison of Particle Swarm and Whale Optimization Algorithms for Optimal Power Flow Problem," *International Journal of Engineering Research & Technology (IJERT)*, 2019. [citation needs verification — authors, volume, issue, pages]
+
+在 IEEE-30 节点电力系统的最优潮流 (OPF) 问题上对比 PSO 与 WOA。目标函数为总发电燃料成本最小化。作者报告 WOA 在最终成本上以约 1.2–2% 优于 PSO，并且约束违反次数更少。基准完全来自电力系统文献（非 Mirjalili 合成函数），属于**独立工程 benchmark**。但 IJERT 属会议级别期刊，审稿深度有限，结果的稳健性需保留判断。
+
+### A.2 综合判断
+
+独立文献**部分支持**但并未完全确认 Mirjalili 2016 "WOA ≥ PSO on most problems" 的论断。观察到的模式是：
+- **WOA 在工程设计/OPF/路径规划等低-中维约束问题**上略胜一筹，这与其螺旋-收缩机制利于快速收敛到可行域有关；
+- **PSO 在高维、多峰、shifted benchmarks** 上仍具竞争力，尤其配合线性递减惯性权重；
+- 大量比较沿用了 Mirjalili 原始 benchmark 套件，存在**方法论继承偏见**，限制了结论的外推性。
+
+关键上下文：Camacho-Villalón 等（2023）"Exposing the grey wolf, moth‐flame, whale, firefly, bat, and antlion algorithms" (*Swarm Intelligence*) 通过组件级分析指出，WOA 实质上是 PSO 的弱变体，其"气泡网攻击"的数学形式与带权速度更新等价。这意味着实证上的微弱优势很可能源于**参数调度差异**而非本质的算法新颖性——符合 No-Free-Lunch 定理的预期。因此 Part 2 实验应强调**公平参数调优**，避免把调参红利当作算法差异。

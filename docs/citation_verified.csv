@@ -1,0 +1,26 @@
+key,status,note
+dorigo,verified,ACO 1992 originator (multiple works)
+kennedy,verified,PSO 1995 Kennedy & Eberhart ICNN'95
+eberhart,verified,PSO co-author; 1998 inertia-weight extension
+karaboga,verified,ABC 2007 Karaboga & Basturk
+simon,verified,BBO 2008 D. Simon IEEE TEC
+yang,verified,Cuckoo Search / Firefly / Bat Algorithm seminal Yang works
+gandomi,verified,Krill Herd 2012 Gandomi & Alavi CNSNS
+pan,verified,Fruit Fly Optimization 2011 W.-T. Pan
+bansal,verified,Spider Monkey Optimization 2014 Bansal et al.
+mirjalili,verified,GWO 2014 / MFO 2015 / WOA 2016 / DA 2016 / SSA 2017 Mirjalili
+heidari,verified,HHO 2019 Heidari et al. Future Generation Computer Systems
+zhao,verified,MRFO 2020 Zhao et al. (cross-check with Tang et al. variant pending)
+saremi,verified,Grasshopper Optimization 2017 Saremi et al. AES
+wang,verified,Elephant Herding Optimization 2015 G.-G. Wang et al.
+meng,pending,CSO 2014 Meng venue Journal of Information & Computational Science needs library verification
+wu,pending,CSO validation Wu et al. 2015 IEEE CYBER proceedings needs library verification
+camacho-villalón,verified,"Camacho-Villalón Dorigo Stützle 2023 ITOR 30(6) metaphor exposed"
+sörensen,verified,Sörensen 2015 Intl Transactions in OR metaheuristics metaphor critique
+sorensen,verified,Sörensen 2015 (ASCII spelling variant)
+castelli,verified,"Castelli Manzoni Mariot Nobile Tangherloni 2022 ESWA 189 SSA critique arXiv:2106.01900"
+tang,pending,"Tang et al. 2021 JIFS 41(6):6711-6727 MRFO variant needs manual check"
+shi,verified,Shi & Eberhart 1998 inertia-weight PSO extension
+essam,verified,"Essam et al. 2021 HHO-LSTM cryptocurrency forecasting"
+moayedi,verified,Moayedi et al. 2020 HHO time-series forecasting
+lei,verified,Lei et al. 2022 Applied Soft Computing HHO ablation study
