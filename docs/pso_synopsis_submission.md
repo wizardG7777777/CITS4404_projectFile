@@ -34,7 +34,7 @@ Where `x_id` is current position, `v_id` is velocity, `p_id` is the particle's p
 
 ## 4. How Demonstrated
 
-The authors tested PSO on two tasks: (1) **Schaffer's f6 function**, a highly discontinuous multimodal benchmark drawn from the GA literature (Davis, 1991); and (2) **EEG spike classification**, a neural network training task. Baselines were an elementary Genetic Algorithm (f6) and backpropagation (EEG). No large-scale benchmark suite (e.g., CEC functions) was used; the 1995 paper is a proof-of-concept study.
+The authors tested PSO on two tasks: (1) **Schaffer's f6 function**, a highly discontinuous multimodal benchmark drawn from the GA literature [4]; and (2) **EEG spike classification**, a neural network training task. Baselines were an elementary Genetic Algorithm (f6) and backpropagation (EEG). No large-scale benchmark suite (e.g., CEC functions) was used; the 1995 paper [1] is a proof-of-concept study.
 
 ---
 
@@ -55,7 +55,7 @@ PSO found the global optimum on every run of f6, demonstrating robustness. On EE
 
 **Weaknesses:** The original evidence base is thin — one benchmark function and one dataset. The 1995 formulation has no mechanism for preventing premature convergence; particles can cluster around a local best on high-dimensional or strongly multimodal surfaces. No statistical hypothesis testing was performed.
 
-**Trading-bot relevance:** PSO is a strong candidate for optimizing trading-bot parameters (WMA window sizes, trigger thresholds, weighting coefficients). Its simplicity and low computational cost suit iterative strategy evaluation. For problems with 7–21 dimensions, a modern variant with an inertia weight (Shi & Eberhart, 1998) is preferable to the 1995 original. Replication confidence is **high** — equations are explicit and the algorithm is universally implemented.
+**Trading-bot relevance:** PSO is a strong candidate for optimizing trading-bot parameters (WMA window sizes, trigger thresholds, weighting coefficients). Its simplicity and low computational cost suit iterative strategy evaluation. For problems with 7–21 dimensions, a modern variant with an inertia weight [3] is preferable to the 1995 original. Replication confidence is **high** — equations are explicit and the algorithm is universally implemented.
 
 ---
 

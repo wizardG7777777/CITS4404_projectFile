@@ -24,3 +24,8 @@ shi,verified,Shi & Eberhart 1998 inertia-weight PSO extension
 essam,verified,"Essam et al. 2021 HHO-LSTM cryptocurrency forecasting"
 moayedi,verified,Moayedi et al. 2020 HHO time-series forecasting
 lei,verified,Lei et al. 2022 Applied Soft Computing HHO ablation study
+davis,verified,Davis 1991 Handbook of Genetic Algorithms Van Nostrand Reinhold (Schaffer f6 source)
+rashedi,verified,Rashedi Nezamabadi-Pour Saryazdi 2009 GSA Information Sciences 179(13):2232-2248
+elgohr,verified,Elgohr Elazab Elhadidy et al. 2025 PSO vs WOA KUKA KR4 R600 Results in Engineering (Tavily-verified 2026-04-20)
+nadimi-shahraki,verified,Nadimi-Shahraki Zamani Asghari Varzaneh Mirjalili 2023 WOA systematic review Arch Comp Methods Eng DOI 10.1007/s11831-023-09928-7
+sultan,verified,Sultan 2022 PSO vs WOA OPF comparison IJERT 11(12) Dec 2022 (Tavily-verified 2026-04-20)

@@ -21,16 +21,24 @@
 
 ---
 
-## 2. 算法分配
+## 2. 算法分配（按大类分工）
 
-| 成员 | 负责算法 | 年份 | Category | 核心隐喻 | 分配理由 |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Member 1** | **Particle Swarm Optimization (PSO)** | 1995 | 1.13 | 鸟群/粒子飞行 | 群体智能奠基算法，文献最丰富，作为基准参照 |
-| **Member 2** | **Whale Optimization Algorithm (WOA)** | 2016 | 1.11 | 座头鲸气泡网捕食 | 现代高引用算法，结构简洁，与 PSO 形成 21 年演进对比 |
+291 个算法按自然现象源头直接二分为两大类：
 
-**备选方案**（如主选算法文献获取困难时切换）：
-- Member 1 备选: Grey Wolf Optimizer (GWO, 2014)
-- Member 2 备选: Gravitational Search Algorithm (GSA, 2009)
+| 大类 | 来源 Category | 算法数量 |
+| :--- | :--- | :--- |
+| **群体算法** (Swarm / Bio-behaviour) | 1.x + 2.x | **219** |
+| **物理模拟** (Physics-based) | 3.x | **73** |
+
+| 成员 | 负责大类 | 涵盖子类 | Synopsis 算法 |
+| :--- | :--- | :--- | :--- |
+| **Member 1** | **群体算法** | 1.11, 1.12, 1.13, 2.21, 2.22, 2.23 | 从 219 个中选一个代表性算法撰写 synopsis（推荐 WOA 或 PSO） |
+| **Member 2** | **物理模拟** | 3.31, 3.32, 3.33 | 从 73 个中选一个代表性算法撰写 synopsis（推荐 GSA 或 SCA） |
+
+**分工逻辑**：
+- Member 1 对“生物行为/社会行为”类算法有整体把握（觅食、狩猎、植物生长、免疫）
+- Member 2 对“物理定律”类算法有整体把握（引力、退火、水流、电磁）
+- 最终对比总结形成 **"生物启发 vs 物理启发"** 的元分析
 
 ---
 
@@ -95,19 +103,19 @@ Step 3 → 交叉阅读：找一篇直接对比 PSO vs WOA 的第三方论文
 - [x] 阅读完成
 - [x] 6 个问题答案已记录
 - [x] Synopsis 初稿完成 (`docs/pso_synopsis_draft.md`)
-- [ ] 校对与润色完成
+- [x] 校对与润色完成（提交版见 `docs/pso_synopsis_submission.md`；内联引用统一为 IEEE [N] 格式，2026-04-20）
 
 ### WOA (Member 2)
 - [x] 原始论文已定位并下载
 - [x] 阅读完成
 - [x] 6 个问题答案已记录
 - [x] Synopsis 初稿完成 (`docs/woa_synopsis_draft.md`)
-- [ ] 校对与润色完成
+- [x] 校对与润色完成（提交版见 `docs/woa_synopsis_submission.md`；补齐 PSO/GWO/GSA 内联 [N] 标注，2026-04-20）
 
 ### 对比总结 (共同)
 - [x] 对比表格/分类图完成
 - [x] 1-2 页对比文字完成 (`docs/comparison_summary.md`)
-- [ ] 格式与引用统一检查
+- [x] 格式与引用统一检查（新增统一 IEEE References 节；附录内联标注与末尾列表对齐；未核验字段已标注并回指 `citation_verified.csv`，2026-04-20）
 
 ---
 

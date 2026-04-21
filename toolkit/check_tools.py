@@ -382,7 +382,11 @@ def check_citations(file_path: Path, db_path: Path | None) -> dict[str, Any]:
         matched_status = None
         matched_key = None
         for key, status in db.items():
-            if key and key in body_l:
+            if not key:
+                continue
+            # Word-boundary match to avoid short-key substring collisions
+            # (e.g., CSV key "shi" spuriously matching "rashid").
+            if re.search(rf"\b{re.escape(key)}\b", body_l):
                 matched_status = status
                 matched_key = key
                 break
