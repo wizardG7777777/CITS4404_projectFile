@@ -50,3 +50,22 @@ def test_main_no_args_exits_with_help(capsys: pytest.CaptureFixture[str]) -> Non
     out = capsys.readouterr().out
     assert "usage:" in out.lower()
 
+
+def test_docx_accepts_stats_flags() -> None:
+    parser = build_parser()
+    args = parser.parse_args(
+        [
+            "docx",
+            "stats",
+            "--file",
+            "a.docx",
+            "--output",
+            "json",
+            "--words-per-page",
+            "450",
+            "--max-paragraphs",
+            "20",
+        ]
+    )
+    assert args.words_per_page == 450
+    assert args.max_paragraphs == 20

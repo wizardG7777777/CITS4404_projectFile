@@ -44,3 +44,25 @@ pip-wheel-metadata/
 
 # Claude Code local settings (may contain API keys / personal config)
 .claude/settings.local.json
+
+# === Deliverable 2 ===
+# Raw / processed BTC data — never commit. See data/README.md for download steps.
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/README.md
+# Kaggle download landing folder (used during initial dataset acquisition).
+kaggleData/
+
+# Experiment results — large per-run files stay local; only summary + figures commit.
+results/runs/
+results/**/*.parquet
+results/**/*.pickle
+results/**/*.pkl
+!results/README.md
+!results/summary.csv
+!results/figures/.gitkeep
+
+# Notebook execution artefacts
+notebooks/.ipynb_checkpoints/

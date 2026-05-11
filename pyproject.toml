@@ -1,15 +1,29 @@
 [project]
 name = "project"
 version = "0.1.0"
-description = "Add your description here"
+description = "CITS4404 Team 20 — D1 toolkit + D2 trading bot."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    # D1 toolkit deps
     "cython>=3.2.4",
     "pandas>=3.0.2",
+    "python-docx>=1.2.0",
     "pypdf>=6.10.2",
     "pytest>=9.0.3",
+    # D2 deps (numerical / plotting / parallel / notebook).
+    # NOTE: PDF §3 Rules of Engagement forbids general optimisation libraries.
+    # Do NOT add scipy.optimize / pyswarm / mealpy / pymoo / nevergrad / etc.
+    "numpy>=2.0",
+    "matplotlib>=3.8",
+    "joblib>=1.4",
+    "pyarrow>=15.0",
+    "jupyterlab>=4.0",
+    "ipykernel>=6.29",
 ]
 
 [project.scripts]
 toolkit = "toolkit.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["toolkit*", "tradebot*"]

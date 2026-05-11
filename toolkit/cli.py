@@ -16,6 +16,7 @@ from toolkit.csv_tools import (
     handle_csv_read_cols,
     handle_csv_read_rows,
 )
+from toolkit.docx_tools import handle_docx_stats
 from toolkit.output_utils import print_error
 from toolkit.pdf_tools import handle_pdf_find_keyword, handle_pdf_read_pages
 
@@ -31,7 +32,7 @@ def _add_pdf_common_output_args(parser: argparse.ArgumentParser) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="toolkit", description="CSV/PDF reader toolkit")
+    parser = argparse.ArgumentParser(prog="toolkit", description="CSV/PDF/DOCX reader toolkit")
     subparsers = parser.add_subparsers(dest="resource")
 
     csv_parser = subparsers.add_parser("csv", help="CSV operations")
@@ -80,6 +81,30 @@ def build_parser() -> argparse.ArgumentParser:
     pdf_find_keyword.add_argument("--ignore-case", action="store_true")
     _add_pdf_common_output_args(pdf_find_keyword)
     pdf_find_keyword.set_defaults(handler=handle_pdf_find_keyword)
+
+    docx_parser = subparsers.add_parser("docx", help="DOCX operations")
+    docx_subparsers = docx_parser.add_subparsers(dest="command")
+
+    docx_stats = docx_subparsers.add_parser(
+        "stats",
+        help="Count words and estimate pages by section/paragraph",
+    )
+    docx_stats.add_argument("--file", required=True)
+    docx_stats.add_argument("--output", choices=["table", "json"], default="table")
+    docx_stats.add_argument("--table-charset", choices=["utf8", "ascii"], default="utf8")
+    docx_stats.add_argument(
+        "--words-per-page",
+        type=int,
+        default=500,
+        help="Page estimation baseline (default 500)",
+    )
+    docx_stats.add_argument(
+        "--max-paragraphs",
+        type=int,
+        default=50,
+        help="Max paragraphs shown in table output (default 50)",
+    )
+    docx_stats.set_defaults(handler=handle_docx_stats)
 
     _build_check_parser(subparsers)
 
