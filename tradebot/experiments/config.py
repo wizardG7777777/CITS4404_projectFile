@@ -11,6 +11,7 @@ from typing import Callable
 
 from tradebot.bot.bots import Bot, BotB1, BotB2
 from tradebot.optim.base import Optimizer
+from tradebot.optim.gwo import GWO
 from tradebot.optim.hho import HHO
 from tradebot.optim.pso import PSO
 from tradebot.optim.random_search import RandomSearch
@@ -21,6 +22,7 @@ from tradebot.optim.random_search import RandomSearch
 ALGORITHMS: dict[str, Callable[[], Optimizer]] = {
     "RandomSearch": RandomSearch,
     "PSO": PSO,
+    "GWO": GWO,
     "HHO": HHO,
 }
 
@@ -36,7 +38,7 @@ BOTS: dict[str, type[Bot]] = {
 class ExperimentConfig:
     """Declarative description of the experiment matrix to run."""
 
-    algorithms: tuple[str, ...] = ("RandomSearch", "PSO", "HHO")
+    algorithms: tuple[str, ...] = ("RandomSearch", "PSO", "GWO", "HHO")
     bots: tuple[str, ...] = ("B1_dual_sma", "B2_compound")
     seeds: tuple[int, ...] = (0, 1, 2, 3, 4)
     budget: int = 5000

@@ -433,6 +433,83 @@ def handle_check_citations(args: argparse.Namespace) -> int:
 
 
 # ---------------------------------------------------------------------------
+# T7: part2-report
+# ---------------------------------------------------------------------------
+
+PART2_SECTIONS = [
+    ("Algorithms investigated", r"algorithm(?:s)?\s+investigated"),
+    ("Bot design and parameterisation", r"bot\s+design|parameterisation|hypothesis\s+space"),
+    ("Algorithm selection", r"algorithm\s+selection|optimisation\s+algorithms?"),
+    ("Experiments and evaluation", r"experiments?|evaluation|experimental\s+setup"),
+    ("Results", r"results?"),
+    ("Conclusions", r"conclusions?|discussion"),
+]
+
+def check_d2_report(file_path: Path, word_limit: int = 3000) -> dict[str, Any]:
+    text = _read(file_path)
+    findings: list[dict[str, Any]] = []
+
+    # 1. Word limit
+    wc = _word_count(text)
+    if wc > word_limit:
+        findings.append(_finding(
+            "error",
+            f"word count {wc} exceeds limit {word_limit}",
+            word_count=wc,
+            limit=word_limit,
+        ))
+    else:
+        findings.append(_finding("info", f"word count {wc} within limit {word_limit}"))
+
+    # 2. Required sections
+    lower = text.lower()
+    missing_sections: list[str] = []
+    headings_joined = "\n".join(_headings(text)).lower()
+    for label, pat in PART2_SECTIONS:
+        if not re.search(pat, headings_joined):
+            missing_sections.append(label)
+            findings.append(_finding("error", f"missing Part 2 section heading: {label}"))
+    if not missing_sections:
+        findings.append(_finding("info", "all Part 2 required section topics found in headings"))
+
+    # 3. Title Page Information
+    if not re.search(r"team\s+number", lower):
+        findings.append(_finding("error", "missing 'Team Number' declaration"))
+    if not re.search(r"authors|names\s+and\s+student\s+numbers", lower):
+        findings.append(_finding("error", "missing authors / student numbers declaration"))
+    if not re.search(r"word\s+count", lower):
+        findings.append(_finding("error", "missing explicit 'Word Count' declaration"))
+
+    # 4. Deliverable links and placeholders
+    if not re.search(r"\.ipynb\b", lower):
+        findings.append(_finding("error", "missing reference to the .ipynb code file"))
+    
+    if "link to be added" in lower:
+        findings.append(_finding("error", "video link is currently a placeholder ('link to be added')"))
+    elif not re.search(r"youtube\.com|youtu\.be|drive\.google\.com|vimeo\.com|\.mp4\b", lower):
+        findings.append(_finding("warning", "no obvious video link found (youtube, google drive, mp4, etc.)"))
+
+    summary = _summarize(findings)
+    return {
+        "ok": summary["errors"] == 0,
+        "tool": "part2-report",
+        "file": str(file_path),
+        "findings": findings,
+        "summary": summary,
+        "detail": {
+            "word_count": wc,
+            "missing_sections": missing_sections,
+        },
+    }
+
+def handle_check_d2_report(args: argparse.Namespace) -> int:
+    def _runner(path: Path) -> dict[str, Any]:
+        return check_d2_report(path, word_limit=args.word_limit)
+
+    return _run_on_target(args, _runner)
+
+
+# ---------------------------------------------------------------------------
 # Shared runner
 # ---------------------------------------------------------------------------
 

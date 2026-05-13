@@ -9,6 +9,7 @@ from toolkit.check_tools import (
     handle_check_equations,
     handle_check_format,
     handle_check_structure,
+    handle_check_d2_report,
 )
 from toolkit.csv_tools import (
     handle_csv_filter_rows,
@@ -170,6 +171,13 @@ def _build_check_parser(subparsers: argparse._SubParsersAction) -> None:
         help="Path to verified citations CSV (columns: key,status,note)",
     )
     cite.set_defaults(handler=handle_check_citations)
+
+    part2 = check_sub.add_parser(
+        "part2-report", help="Part 2 specific checks (sections, video link, .ipynb)"
+    )
+    _add_target_args(part2)
+    part2.add_argument("--word-limit", type=int, default=3000)
+    part2.set_defaults(handler=handle_check_d2_report)
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -129,7 +129,8 @@ def test_evaluate_all_on_real_btc_test_data():
     df = evaluate_all(
         runs_dir=real_runs, test_prices=test_prices, out_path=Path("/tmp/test_results_smoke.csv")
     )
-    assert len(df) == 30
+    # 4 algorithms × 2 bots × 5 seeds = 40 runs.
+    assert len(df) == 40
     assert df["test_fitness"].notna().all()
     assert (df["test_fitness"] > 0).all()
 
@@ -196,8 +197,8 @@ def test_analyse_b2_on_real_runs():
 
     out = analyse(real_runs)
     algos = set(out["per_algorithm"].keys())
-    # All three algos in default config should have produced B2 runs.
-    assert algos == {"RandomSearch", "PSO", "HHO"}
+    # All four algos in default config should have produced B2 runs.
+    assert algos == {"RandomSearch", "PSO", "GWO", "HHO"}
     for algo, block in out["per_algorithm"].items():
         assert block["n_runs"] == 5
         # Winner counts sum to n_runs for each side.

@@ -25,14 +25,14 @@ from tradebot.experiments.config import (
 
 
 def test_default_config_matches_d2_scope():
-    """Sanity-check the 5×3×2 matrix declared in docs/d2_requirement_alignment.md."""
+    """Sanity-check the 5 × 4 × 2 matrix (RS + PSO + GWO + HHO on B1, B2)."""
     cfg = DEFAULT_CONFIG
-    assert set(cfg.algorithms) == {"RandomSearch", "PSO", "HHO"}
+    assert set(cfg.algorithms) == {"RandomSearch", "PSO", "GWO", "HHO"}
     assert set(cfg.bots) == {"B1_dual_sma", "B2_compound"}
     assert len(cfg.seeds) == 5
     assert cfg.budget == 5000
     assert cfg.split == "train"
-    assert cfg.n_runs == 30
+    assert cfg.n_runs == 40
 
 
 def test_config_rejects_unknown_algorithm():

@@ -45,10 +45,11 @@ plt.rcParams.update(
     }
 )
 
-ALGOS_ORDER = ["RandomSearch", "PSO", "HHO"]
+ALGOS_ORDER = ["RandomSearch", "PSO", "GWO", "HHO"]
 ALGO_COLOURS = {
     "RandomSearch": "tab:gray",
     "PSO": "tab:blue",
+    "GWO": "tab:green",
     "HHO": "tab:red",
 }
 
@@ -201,7 +202,7 @@ def fig_06_train_test_scatter() -> Path:
     bh = buy_and_hold(test_prices)
 
     bots = ["B1_dual_sma", "B2_compound"]
-    markers = {"RandomSearch": "s", "PSO": "o", "HHO": "^"}
+    markers = {"RandomSearch": "s", "PSO": "o", "GWO": "D", "HHO": "^"}
 
     fig, axes = plt.subplots(1, 2, figsize=(11, 5))
     for ax, bot in zip(axes, bots):
