@@ -1,6 +1,14 @@
 # macOS
 .DS_Store
 
+# Microsoft Office / LibreOffice lockfiles (created while a doc is open)
+~$*
+
+# Local safety backups (timestamped copies made before manual edits)
+*_BACKUP_*.pptx
+*_BACKUP_*.docx
+*_BACKUP_*.xlsx
+
 # Python bytecode and caches
 __pycache__/
 *.py[cod]

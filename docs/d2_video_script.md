@@ -112,36 +112,117 @@ Visual cues `[SLIDE: name]` mark where to advance the deck. All figures live in 
 
 ---
 
-## Segment 5 — Algorithm walkthrough (10:30 – 14:30, ≈ 540 w)
+## Segment 5 — Algorithm walkthrough with live animations (10:30 – 15:30, ≈ 700 w)
 
-**[SLIDE: rs_pseudocode]**
+Each sub-segment plays one of the four pre-rendered animations from
+`results/animations/` while the narrator speaks over it. Animations show
+the algorithms running on a deliberately simple 2-D toy fitness landscape
+so the search behaviour is visible; the actual experiment uses the full
+14-D BTC back-test.
+
+---
+
+### §5a — Random Search (10:30 – 11:00, ≈ 90 w)
+
+**[VIDEO: results/animations/rs.mp4 — autoplay, ~30 s]**
 
 **Q**:
-> Random Search has no inner logic to speak of. Every step draws an independent uniform sample from the parameter box and evaluates it. No memory, no exploitation, no neighbourhood. The running maximum is tracked by the fairness framework, not by the algorithm itself. Its role is the reference line — the swarm algorithms must beat Random Search to justify their inductive bias.
+> Random Search has no inner logic. Every step draws an independent
+uniform sample from the parameter box and evaluates it. Watch the red
+dots scatter across the landscape — there is no memory, no neighbourhood,
+no learning. The yellow star tracks the running maximum, jumping each
+time a fresh draw beats the previous best. Random Search exists to serve
+as the reference line the swarm algorithms must beat to justify their
+inductive bias.
 
-**[SLIDE: pso_pseudocode]**
+---
+
+### §5b — PSO (11:00 – 12:15, ≈ 175 w)
+
+**[VIDEO: results/animations/pso.mp4 — autoplay, ~30 s, may loop]**
 
 **Q**:
-> PSO maintains thirty particles, each with a position and a velocity. At every step the velocity is updated using three terms: an inertia term that preserves momentum, a cognitive term pulling the particle toward its own best position so far, and a social term pulling it toward the swarm's global best. Positions are clipped to the bounds box.
+> PSO maintains thirty particles, each with a position and a velocity in
+the parameter box. At every step the velocity is updated using three
+terms: an inertia term that preserves momentum, a cognitive term pulling
+the particle toward its own personal best, and a social term pulling it
+toward the swarm's global best.
 
-**[SLIDE: gwo_pseudocode]**
+**Q**:
+> In the animation, the white dots are the thirty particles and the cyan
+star marks the global best. Notice how within five or six iterations
+every particle is pulled into a single basin — the cognitive-plus-social
+attractor is *strong*. Once converged, the swarm has no mechanism to
+escape if the basin is the wrong one. That single-attractor concentration
+is exactly the behaviour our Part 1 synopsis flagged as PSO's main
+limitation, and it directly explains the high variance PSO shows on the
+14-D B2 problem we will see in the next section.
+
+---
+
+### §5c — GWO (12:15 – 13:30, ≈ 175 w)
+
+**[VIDEO: results/animations/gwo.mp4 — autoplay, ~30 s, may loop]**
 
 **Y**:
-> GWO ranks the population each iteration. For each non-leader wolf, three candidate positions are computed — one each from alpha, beta, and delta — using two random factors A and C. The wolf moves to the average of those three candidates. The annealing factor a decays linearly from two to zero over the iteration horizon, which gradually tightens the exploitation pressure.
-
-**[SLIDE: hho_pseudocode]**
+> GWO ranks the population each iteration. The top three wolves — alpha
+in red, beta in orange, delta in yellow — become temporary attractors.
+Every non-leader wolf computes three candidate positions, one per leader,
+and moves to the average. The annealing factor *a* decays linearly from
+two to zero, gradually tightening exploitation.
 
 **Y**:
-> HHO is the most structurally complex. Every hawk draws an escape energy E. When the magnitude of E is at least one, the hawk explores by perching relative to a random family member or to the swarm mean. When the magnitude of E is less than one, the hawk exploits, choosing between four behaviours: soft besiege, hard besiege, soft besiege with rapid dives, hard besiege with rapid dives. The "dive" modes generate two candidate positions Y and Z, with Z being Y plus a heavy-tailed Lévy step. Both are evaluated and committed only on strict improvement; otherwise the hawk stays put.
+> Visually, GWO converges differently from PSO. There is no single
+g-best to be pulled toward; instead the population follows a moving
+*centroid* of the top three. That averaging smooths the trajectory and
+suppresses jackpot-or-nothing behaviour — and it is exactly the property
+the Camacho-Villalon critique claims reduces algebraically to an
+inertia-weight PSO variant. We will see empirical evidence of that
+algebraic equivalence on the next slide.
+
+---
+
+### §5d — HHO (13:30 – 15:00, ≈ 230 w)
+
+**[VIDEO: results/animations/hho.mp4 — autoplay, ~30 s, may loop]**
+
+**Y**:
+> HHO is the most structurally complex of the four. Every hawk draws an
+escape energy E equal to two times E-naught times one minus t over T,
+with E-naught uniform in negative one to one. When the magnitude of E
+is at least one, the hawk *explores* — see the blue dots leaving the
+attractor to wander the landscape. When the magnitude is less than one,
+the hawk *exploits* via one of four behaviours: soft besiege in green,
+hard besiege in red, and two "dive" variants in purple and orange.
+
+**Y**:
+> The dive modes generate two candidate positions Y and Z, with Z being
+Y perturbed by a heavy-tailed Lévy flight. Both are evaluated, and
+neither is committed unless it strictly improves on the current hawk —
+otherwise the hawk stays put. That strict greedy acceptance is the
+mechanism Part 1 flagged as both HHO's strength on smooth benchmarks
+and its weakness on noisy or discrete-feeling fitness surfaces. We will
+see this behaviour manifest twice in our experiments: HHO under-performs
+on the training fitness, but it over-fits less than the other three on
+the test set.
+
+---
+
+### §5e — Compliance recap (15:00 – 15:30, ≈ 65 w)
 
 **[SLIDE: rules_of_engagement]**
 
 **Q**:
-> All four algorithms are hand-written. We did not use scipy.optimize, mealpy, pyswarm, or any other general optimisation library. The specification's Rules of Engagement allow adapting code provided in conjunction with the original research papers, and we acknowledge those sources here: Kennedy and Eberhart 1995, Shi and Eberhart 1998, Mirjalili and colleagues 2014, and Heidari and colleagues 2019.
+> All four algorithms are hand-written. We did not use scipy.optimize,
+mealpy, pyswarm, or any other general optimisation library. The
+specification's Rules of Engagement allow adapting code from research
+papers, and we acknowledge those sources: Kennedy and Eberhart 1995,
+Shi and Eberhart 1998, Mirjalili and colleagues 2014, and Heidari and
+colleagues 2019.
 
 ---
 
-## Segment 6 — Evaluation regime (14:30 – 16:30, ≈ 270 w)
+## Segment 6 — Evaluation regime (15:30 – 17:30, ≈ 270 w)
 
 **[SLIDE: objective_framework]**
 
@@ -160,7 +241,7 @@ Visual cues `[SLIDE: name]` mark where to advance the deck. All figures live in 
 
 ---
 
-## Segment 7 — Training results (16:30 – 19:30, ≈ 400 w)
+## Segment 7 — Training results (17:30 – 20:30, ≈ 400 w)
 
 **[SLIDE: boxplot]** (Fig. 3)
 
@@ -185,7 +266,7 @@ Visual cues `[SLIDE: name]` mark where to advance the deck. All figures live in 
 
 ---
 
-## Segment 8 — Generalisation (19:30 – 22:00, ≈ 340 w)
+## Segment 8 — Generalisation (20:30 – 23:00, ≈ 340 w)
 
 **[SLIDE: train_test_scatter]** (Fig. 5)
 
@@ -207,7 +288,7 @@ Visual cues `[SLIDE: name]` mark where to advance the deck. All figures live in 
 
 ---
 
-## Segment 9 — Behavioural analysis (22:00 – 23:30, ≈ 200 w)
+## Segment 9 — Behavioural analysis (23:00 – 23:45, ≈ 200 w)
 
 **[SLIDE: b2_weight_shares]** (Fig. 8)
 
@@ -222,7 +303,7 @@ Visual cues `[SLIDE: name]` mark where to advance the deck. All figures live in 
 
 ---
 
-## Segment 10 — Conclusions (23:30 – 24:30, ≈ 150 w)
+## Segment 10 — Conclusions (23:45 – 24:30, ≈ 150 w)
 
 **[SLIDE: takeaways]**
 
